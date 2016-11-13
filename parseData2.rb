@@ -30,16 +30,33 @@ class DataParser
   private
   def parse_product(input)
     qty = get_qty(input)
-    multiplied_qty = parse_multiplier(qty)
+    multiplied_qty = parse_multiplier(normalized_units(qty))
     multiplied_qty
   end
 
   def get_qty(input)
-    input.gsub(/\(|\)/, '').match(/([0-9]+.*)\)?/).to_s.downcase
+    stripped_input = input.gsub(/\(|\)/, '')
+    qty_regex = /([0-9]+.*)\)?/
+    stripped_input.match(qty_regex).to_s.downcase
+  end
+
+  def normalized_units(input)
+    input.gsub(/\s?|-/, "")
   end
 
   def parse_multiplier(input)
-    input.gsub(/1x/, '')
+    if (input.match(/1x/))
+      return input.gsub(/1x/, '')
+    elsif (input.match(/\d+x/))
+      return multiply_qty(input)
+    end
+    input
+  end
+
+  def multiply_qty(input)
+    puts '*******'
+    puts input
+    return input
   end
 end
 

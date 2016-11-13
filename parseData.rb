@@ -49,5 +49,5 @@ class DataParser
   end
 end
 
-test = DataParser.new('test.csv')
-test.parse
+# test = DataParser.new('test.csv')
+# test.parse

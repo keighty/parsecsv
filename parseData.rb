@@ -22,8 +22,6 @@ class DataParser
         puts qty2
         puts '-----------------'
       end
-      # puts csv_obj['Input SKU']
-      # csv_obj['foo'] = 'bar'
     end
   end
 

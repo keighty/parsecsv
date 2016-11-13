@@ -10,7 +10,8 @@ describe ParseAmazonData do
     expect(ParseAmazonData::DataParser.class).to be(Class)
   end
 
-  # it "should take a CSV argument" do
-  #   ParseAmazonData::DataParser.parse('./data/10Lines.csv')
-  # end
+  it "should parse a small csv file" do
+    ParseAmazonData::DataParser.parse('./spec/data/10Lines.csv')
+  end
+
 end

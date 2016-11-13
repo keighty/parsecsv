@@ -1,7 +1,9 @@
 module ParseAmazonData
   class DataParser
+    require 'csv'
+
     def self.parse(filename)
-      CSV.foreach(@file, headers: true) do |csv_obj|
+      CSV.foreach(filename, headers: true) do |csv_obj|
         title = csv_obj['Title']
         sku_title = csv_obj['Input SKU']
         qty1 = parse_product(title)

@@ -21,15 +21,15 @@ describe ParseAmazonData do
         @qty = ParseAmazonData::QuantityExpression.new(@input)
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should assign a multiplier" do
         expect(@qty.multiplier).to eq("2")
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should assign a value" do
         expect(@qty.value).to eq("4")
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should assign the units" do
         expect(@qty.units).to eq("oz")
       end
     end
@@ -40,15 +40,15 @@ describe ParseAmazonData do
         @qty = ParseAmazonData::QuantityExpression.new(@input)
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should not assign a multiplier" do
         expect(@qty.multiplier).to eq(nil)
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should assign a value" do
         expect(@qty.value).to eq("4")
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should assign the units" do
         expect(@qty.units).to eq("oz")
       end
     end
@@ -59,16 +59,42 @@ describe ParseAmazonData do
         @qty = ParseAmazonData::QuantityExpression.new(@input)
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should not assign a multiplier" do
         expect(@qty.multiplier).to eq(nil)
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should assign a value" do
         expect(@qty.value).to eq("4")
       end
 
-      it "should assign a multiplier, value, units" do
+      it "should not assign the units" do
         expect(@qty.units).to eq(nil)
+      end
+    end
+
+    describe "missing multiplier and units" do
+      before do
+        @input = "4"
+        @qty = ParseAmazonData::QuantityExpression.new(@input)
+      end
+
+      it "should not assign a multiplier" do
+        expect(@qty.multiplier).to eq(nil)
+      end
+
+      it "should assign a value" do
+        expect(@qty.value).to eq("4")
+      end
+
+      it "should not assign the units" do
+        expect(@qty.units).to eq(nil)
+      end
+    end
+
+    describe "no quantities at all" do
+      it "should raise an error if no data is found" do
+        @input = ""
+        expect { ParseAmazonData::QuantityExpression.new(@input) }.to raise_error(RuntimeError, "No qty data available")
       end
     end
   end

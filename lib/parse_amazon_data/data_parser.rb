@@ -61,6 +61,8 @@ module ParseAmazonData
         @value, @units = match.captures
       elsif (match = input.match(NO_MULTIPLIER_NO_UNITS))
         @value = match.captures.first
+      else
+        raise "No qty data available"
       end
     end
   end

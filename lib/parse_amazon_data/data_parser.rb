@@ -43,4 +43,22 @@ module ParseAmazonData
       input
     end
   end
+
+  class QuantityExpression
+    attr_reader :multiplier, :value, :units
+    FULL_QTY_REGEX = /(\d+)x(\d+)(\D+)/
+    NO_MULTIPLIER_REGEX = /(\d+)(\D+)/
+
+    def initialize(input)
+      parse_input(input)
+    end
+
+    def parse_input(input)
+      if (match = input.match(FULL_QTY_REGEX))
+        @multiplier, @value, @units = match.captures
+      elsif (match = input.match(NO_MULTIPLIER_REGEX))
+        @value, @units = match.captures
+      end
+    end
+  end
 end

@@ -52,7 +52,10 @@ module ParseAmazonData
 
     def initialize(input)
       parse_input(input)
+      normalize_units
     end
+
+    private
 
     def parse_input(input)
       if (match = input.match(FULL_QTY_REGEX))
@@ -63,6 +66,12 @@ module ParseAmazonData
         @value = match.captures.first
       else
         raise "No qty data available"
+      end
+    end
+
+    def normalize_units
+      if (@units)
+        @units = @units.gsub(/\-/, "").downcase
       end
     end
   end

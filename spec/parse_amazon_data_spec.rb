@@ -97,5 +97,17 @@ describe ParseAmazonData do
         expect { ParseAmazonData::QuantityExpression.new(@input) }.to raise_error(RuntimeError, "No qty data available")
       end
     end
+
+    # describe "should handle nil input" do
+    #
+    # end
+
+    describe "normalize units" do
+      it "should remove all hyphens from unit expressions" do
+        input = "2-Pack"
+        units = ParseAmazonData::QuantityExpression.new(input).units
+        expect(units).to eql('pack')
+      end
+    end
   end
 end

@@ -51,6 +51,8 @@ module ParseAmazonData
     NO_MULTIPLIER_NO_UNITS = /(\d+)/
 
     def initialize(input)
+      raise "No qty data available" unless input
+
       parse_input(input)
       normalize_units
     end
@@ -70,7 +72,7 @@ module ParseAmazonData
     end
 
     def normalize_units
-      if (@units)
+      if @units
         @units = @units.gsub(/\-/, "").downcase
       end
     end

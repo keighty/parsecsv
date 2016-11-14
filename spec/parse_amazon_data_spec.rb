@@ -93,14 +93,19 @@ describe ParseAmazonData do
 
     describe "no quantities at all" do
       it "should raise an error if no data is found" do
-        @input = ""
-        expect { ParseAmazonData::QuantityExpression.new(@input) }.to raise_error(RuntimeError, "No qty data available")
+        input = ""
+        expect { ParseAmazonData::QuantityExpression.new(input) }.to raise_error(RuntimeError, "No qty data available")
       end
     end
 
-    # describe "should handle nil input" do
-    #
-    # end
+    describe "should handle nil input" do
+      it "should throw an error with null input" do
+        input = nil
+        expect { ParseAmazonData::QuantityExpression.new(input) }.to raise_error(RuntimeError, "No qty data available")
+
+      end
+
+    end
 
     describe "normalize units" do
       it "should remove all hyphens from unit expressions" do

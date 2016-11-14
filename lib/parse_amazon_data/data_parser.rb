@@ -48,6 +48,7 @@ module ParseAmazonData
     attr_reader :multiplier, :value, :units
     FULL_QTY_REGEX = /(\d+)x(\d+)(\D+)/
     NO_MULTIPLIER_REGEX = /(\d+)(\D+)/
+    NO_MULTIPLIER_NO_UNITS = /(\d+)/
 
     def initialize(input)
       parse_input(input)
@@ -58,6 +59,8 @@ module ParseAmazonData
         @multiplier, @value, @units = match.captures
       elsif (match = input.match(NO_MULTIPLIER_REGEX))
         @value, @units = match.captures
+      elsif (match = input.match(NO_MULTIPLIER_NO_UNITS))
+        @value = match.captures.first
       end
     end
   end

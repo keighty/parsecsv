@@ -132,13 +132,13 @@ describe ParseAmazonData do
       it "should remove all hyphens from unit expressions" do
         input = "2-Pack"
         units = ParseAmazonData::QuantityExpression.new(input).units
-        expect(units).to eql('pack')
+        expect(units.match(/-/)).to eql(nil)
       end
 
       it "should remove all whitespace from unit expressions" do
         input = "2 Pack"
         units = ParseAmazonData::QuantityExpression.new(input).units
-        expect(units).to eql('pack')
+        expect(units.match(/\s/)).to eql(nil)
       end
 
       it "should remove all hyphens and white space from unit expressions" do

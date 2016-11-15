@@ -133,7 +133,7 @@ module ParseAmazonData
     def normalize_units
       if @units
         normalized = @units.gsub(/\-|\s|\./, "").downcase
-        @units = EQUIVALENTS[normalized] || normalized
+        @units = EQUIVALENTS[normalized.to_sym] || normalized
       end
     end
 

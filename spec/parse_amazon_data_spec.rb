@@ -199,6 +199,16 @@ describe ParseAmazonData do
 
           expect(qty1 == qty2).to be(false)
         end
+
+        it "1x == no multiplier" do
+          input1 = "22 FZ"
+          input2 = "1x22Oz"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(true)
+        end
       end
     end
   end

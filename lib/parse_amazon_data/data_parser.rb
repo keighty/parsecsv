@@ -65,9 +65,11 @@ module ParseAmazonData
     end
 
     def ==(other)
-      if (multiplier == other.multiplier) && (value == other.value)
-        if units == other.units || EQUIVALENTS[units.to_sym] == other.units
-          return true
+      if multiplier == other.multiplier
+        if value == other.value
+          if units == other.units || EQUIVALENTS[units.to_sym] == other.units
+            return true
+          end
         end
       end
       return false
@@ -78,6 +80,9 @@ module ParseAmazonData
     def parse_input(input)
       if (match = input.match(FULL_QTY_REGEX))
         @multiplier, @value, @units = match.captures
+        if (@multiplier == "1")
+          @multiplier = nil
+        end
       elsif (match = input.match(NO_MULTIPLIER_REGEX))
         @value, @units = match.captures
       elsif (match = input.match(NO_MULTIPLIER_NO_UNITS))

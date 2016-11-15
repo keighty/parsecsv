@@ -98,7 +98,7 @@ describe ParseAmazonData do
       end
     end
 
-    describe "should handle nil input" do
+    describe "handle nil input" do
       it "should throw an error with null input" do
         input = nil
         expect { ParseAmazonData::QuantityExpression.new(input) }.to raise_error(RuntimeError, "No qty data available")
@@ -112,6 +112,18 @@ describe ParseAmazonData do
         input = "2-Pack"
         units = ParseAmazonData::QuantityExpression.new(input).units
         expect(units).to eql('pack')
+      end
+
+      it "should remove all whitespace from unit expressions" do
+        input = "2 Pack"
+        units = ParseAmazonData::QuantityExpression.new(input).units
+        expect(units).to eql('pack')
+      end
+
+      it "should remove all hyphens and white space from unit expressions" do
+        input = "2-Pack a-Doodles"
+        units = ParseAmazonData::QuantityExpression.new(input).units
+        expect(units).to eql('packadoodles')
       end
     end
   end

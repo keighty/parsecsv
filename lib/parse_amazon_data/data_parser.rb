@@ -73,7 +73,7 @@ module ParseAmazonData
 
     def normalize_units
       if @units
-        @units = @units.gsub(/\-/, "").downcase
+        @units = @units.gsub(/\-|\s*/, "").downcase
       end
     end
   end

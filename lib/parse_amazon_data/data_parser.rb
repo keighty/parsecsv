@@ -4,10 +4,17 @@ module ParseAmazonData
 
     def self.parse(filename)
       CSV.foreach(filename, headers: true) do |csv_obj|
+
         title = csv_obj['Title']
         sku_title = csv_obj['Input SKU']
-        qty1 = parse_product(title)
-        qty2 = parse_product(sku_title)
+
+        begin
+          qty1 = getQty(title)
+          qty2 = getQty(sku_title)
+        rescue Exception => e
+          csv_obj[:check] = e.message
+          next
+        end
 
         matches = qty1 == qty2
 
@@ -21,6 +28,14 @@ module ParseAmazonData
     end
 
     private
+    def self.getQty(input)
+      qty_regex = /([0-9]+.*)\)?/
+      stripped_input = input.gsub(/\(|\)/, '')
+
+      qty = stripped_input.match(qty_regex).to_s
+      QuantityExpression.new(qty)
+    end
+
     def self.parse_product(input)
       qty = get_qty(input)
       remove_multiplier(normalized_units(qty))
@@ -45,22 +60,28 @@ module ParseAmazonData
   end
 
   class QuantityExpression
-    attr_reader :multiplier, :value, :units
-    FULL_QTY_REGEX = /(\d+)x(\d+)(\D+)/
-    NO_MULTIPLIER_REGEX = /(\d+)(\D+)/
+    attr_reader :multiplier, :value, :units, :input
+    FULL_QTY_REGEX = /(\d+)[x|X](\d*\.?\d+)(\D+)/
+    PACK_MULTIPLIER = /pack of (\d+)/
+    NO_MULTIPLIER_REGEX = /(\d*\.?\d+)(\D+)/
     NO_MULTIPLIER_NO_UNITS = /(\d+)/
 
     EQUIVALENTS = {
       pack: "count",
+      packof: "pack",
       count: "pack",
       fz: "oz",
-      oz: "fz"
+      fluidounce: "oz",
+      ounce: "oz",
+      floz: "oz"
     }
 
     def initialize(input)
-      raise "No qty data available" unless input
+      raise ArgumentError, "No qty data available" unless input
+      @input = input
 
       parse_input(input)
+      normalize_value
       normalize_units
     end
 
@@ -77,26 +98,39 @@ module ParseAmazonData
       return false
     end
 
+    def to_s
+      "multiplier: #{multiplier}, value: #{value}, units: #{units}"
+    end
+
     private
 
     def parse_input(input)
+      if (match = input.downcase.match(PACK_MULTIPLIER))
+        @multiplier = match.captures.first
+      end
+
       if (match = input.match(FULL_QTY_REGEX))
         @multiplier, @value, @units = match.captures
-        if (@multiplier == "1")
-          @multiplier = nil
-        end
+        @multiplier = nil if @multiplier == "1"
       elsif (match = input.match(NO_MULTIPLIER_REGEX))
         @value, @units = match.captures
       elsif (match = input.match(NO_MULTIPLIER_NO_UNITS))
         @value = match.captures.first
       else
-        raise "No qty data available"
+        raise RuntimeError, "No qty data available"
+      end
+    end
+
+    def normalize_value
+      if @value.match(/^\./)
+        @value = "0" + @value
       end
     end
 
     def normalize_units
       if @units
-        @units = @units.gsub(/\-|\s*/, "").downcase
+        normalized = @units.gsub(/\-|\s/, "").downcase
+        @units = EQUIVALENTS[normalized] || normalized
       end
     end
 

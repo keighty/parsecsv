@@ -3,6 +3,7 @@ module ParseAmazonData
     require 'csv'
 
     def self.parse(filename)
+      count = 0
       CSV.foreach(filename, headers: true) do |csv_obj|
 
         title = csv_obj['Title']
@@ -19,6 +20,7 @@ module ParseAmazonData
         matches = qty1 == qty2
 
         if !matches
+          count += 1
           puts title
           puts sku_title
           puts qty1
@@ -26,37 +28,23 @@ module ParseAmazonData
           puts '-----------------'
         end
       end
+      puts "\nissue count: #{count}\n"
     end
 
     private
     def self.getQty(input)
       qty_regex = /([0-9]+.*)\)?/
-      stripped_input = input.gsub(/\(|\)/, '')
+      interference_regex = /og\d/
+      weird = /og\d\D*(\d*\.?\d+\D*)/
+      stripped_input = input.gsub(/\(|\)/, '').downcase
 
-      qty = stripped_input.match(qty_regex).to_s
-      QuantityExpression.new(qty)
-    end
-
-    def self.parse_product(input)
-      qty = get_qty(input)
-      remove_multiplier(normalized_units(qty))
-    end
-
-    def self.get_qty(input)
-      stripped_input = input.gsub(/\(|\)/, '')
-      qty_regex = /([0-9]+.*)\)?/
-      stripped_input.match(qty_regex).to_s.downcase
-    end
-
-    def self.normalized_units(input)
-      input.gsub(/-|\s+/, "")
-    end
-
-    def self.remove_multiplier(input)
-      if (input.match(/1x/))
-        return input.gsub(/1x/, '')
+      qty_match = if (stripped_input.match(interference_regex))
+        stripped_input.match(weird).captures.first
+      else
+        stripped_input.match(qty_regex).to_s
       end
-      input
+
+      QuantityExpression.new(qty_match)
     end
   end
 
@@ -76,14 +64,21 @@ module ParseAmazonData
       ounce: "oz",
       floz: "oz",
       caps: "ea",
-      vcaps: "caps"
+      vcaps: "caps",
+      ouncejar: "oz",
+      ouncepackof: "oz"
     }
 
     def initialize(input)
       raise ArgumentError, "No qty data available" unless input
-      @input = input
+      @input = input.downcase
 
-      parse_input(input)
+      # if (@input.match(/og/))
+      #   puts @input
+      #   puts @input.match(Q3_WEIRD_REGEX).captures.to_s
+      # end
+
+      parse_input(@input)
       normalize_value
       normalize_units
     end
@@ -112,6 +107,14 @@ module ParseAmazonData
         @multiplier = match.captures.first
       end
 
+      # puts
+      # puts input
+      # puts " matched: #{input.match(FULL_QTY_REGEX)}"
+      # puts " matched: #{input.match(/og/)}"
+      # puts " matched: #{input.match(NO_MULTIPLIER_REGEX)}"
+      # puts " matched: #{input.match(NO_MULTIPLIER_NO_UNITS)}"
+      # puts "-----------------"
+
       if (match = input.match(FULL_QTY_REGEX))
         @multiplier, @value, @units = match.captures
         @multiplier = nil if @multiplier == "1"
@@ -132,7 +135,7 @@ module ParseAmazonData
 
     def normalize_units
       if @units
-        normalized = @units.gsub(/\-|\s|\./, "").downcase
+        normalized = @units.gsub(/\-|\s|\.|_/, "")
         @units = EQUIVALENTS[normalized.to_sym] || normalized
       end
     end
@@ -151,6 +154,9 @@ module ParseAmazonData
 
     def multiplier_value_match?(other)
       multiplier == other.value || value == other.multiplier
+    end
+
+    def get_multiplier(input)
     end
   end
 end

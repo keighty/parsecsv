@@ -65,9 +65,9 @@ module ParseAmazonData
     end
 
     def ==(other)
-      if multiplier == other.multiplier
-        if value == other.value
-          if units == other.units || EQUIVALENTS[units.to_sym] == other.units
+      if multiplier_match?(other)
+        if value_match?(other)
+          if units_match?(other)
             return true
           end
         end
@@ -97,5 +97,18 @@ module ParseAmazonData
         @units = @units.gsub(/\-|\s*/, "").downcase
       end
     end
+
+    def multiplier_match?(other)
+      multiplier == other.multiplier
+    end
+
+    def value_match?(other)
+      value == other.value
+    end
+
+    def units_match?(other)
+      units == other.units || EQUIVALENTS[units.to_sym] == other.units
+    end
+
   end
 end

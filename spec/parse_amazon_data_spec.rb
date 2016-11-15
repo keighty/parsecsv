@@ -209,6 +209,26 @@ describe ParseAmazonData do
 
           expect(qty1 == qty2).to be(true)
         end
+
+        it "1x == 10x" do
+          input1 = "2x10 FZ"
+          input2 = "1x20 Oz"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(false)
+        end
+
+        it "1x == 10x" do
+          input1 = "5-pack"
+          input2 = "5x50oz"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(true)
+        end
       end
     end
   end

@@ -71,6 +71,8 @@ module ParseAmazonData
             return true
           end
         end
+      elsif multiplier_value_match?(other)
+        return true
       end
       return false
     end
@@ -110,5 +112,8 @@ module ParseAmazonData
       units == other.units || EQUIVALENTS[units.to_sym] == other.units
     end
 
+    def multiplier_value_match?(other)
+      multiplier == other.value || value == other.multiplier
+    end
   end
 end

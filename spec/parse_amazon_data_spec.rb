@@ -126,5 +126,29 @@ describe ParseAmazonData do
         expect(units).to eql('packadoodles')
       end
     end
+
+    describe "==" do
+      describe "compare units" do
+        it "count == pack" do
+          input1 = "2-pack"
+          input2 = "2 count"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(true)
+        end
+        it "fz == oz" do
+          input1 = "2fz"
+          input2 = "2 Oz"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(true)
+        end
+
+      end
+    end
   end
 end

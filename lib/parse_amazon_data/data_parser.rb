@@ -50,11 +50,22 @@ module ParseAmazonData
     NO_MULTIPLIER_REGEX = /(\d+)(\D+)/
     NO_MULTIPLIER_NO_UNITS = /(\d+)/
 
+    EQUIVALENTS = {
+      pack: "count",
+      count: "pack",
+      fz: "oz",
+      oz: "fz"
+    }
+
     def initialize(input)
       raise "No qty data available" unless input
 
       parse_input(input)
       normalize_units
+    end
+
+    def ==(other)
+      return true if @units == other.units || EQUIVALENTS[@units.to_sym] == other.units
     end
 
     private

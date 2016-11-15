@@ -20,6 +20,7 @@ module ParseAmazonData
 
         if !matches
           puts title
+          puts sku_title
           puts qty1
           puts qty2
           puts '-----------------'
@@ -73,7 +74,9 @@ module ParseAmazonData
       fz: "oz",
       fluidounce: "oz",
       ounce: "oz",
-      floz: "oz"
+      floz: "oz",
+      caps: "ea",
+      vcaps: "caps"
     }
 
     def initialize(input)
@@ -129,7 +132,7 @@ module ParseAmazonData
 
     def normalize_units
       if @units
-        normalized = @units.gsub(/\-|\s/, "").downcase
+        normalized = @units.gsub(/\-|\s|\./, "").downcase
         @units = EQUIVALENTS[normalized] || normalized
       end
     end

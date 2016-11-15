@@ -19,7 +19,7 @@ describe ParseAmazonData do
   end
 
   it "should parse a medium-large csv file" do
-    # ParseAmazonData::DataParser.parse('./spec/data/50Lines.csv')
+    ParseAmazonData::DataParser.parse('./spec/data/50Lines.csv')
   end
 
   describe ParseAmazonData::QuantityExpression do

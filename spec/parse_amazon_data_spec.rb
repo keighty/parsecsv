@@ -158,6 +158,47 @@ describe ParseAmazonData do
 
           expect(qty1 == qty2).to be(true)
         end
+
+        it "pack == Pack" do
+          input1 = "2-oz"
+          input2 = "2 Pack"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(false)
+        end
+      end
+      describe "compare quantities" do
+        it "count == pack" do
+          input1 = "2-pack"
+          input2 = "1 count"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(false)
+        end
+
+        it "fz == oz" do
+          input1 = "2fz"
+          input2 = "1 Oz"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(false)
+        end
+
+        it "pack == Pack" do
+          input1 = "1-pack"
+          input2 = "2 Pack"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(false)
+        end
       end
     end
   end

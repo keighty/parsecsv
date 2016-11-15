@@ -65,7 +65,12 @@ module ParseAmazonData
     end
 
     def ==(other)
-      return true if @units == other.units || EQUIVALENTS[@units.to_sym] == other.units
+      if (multiplier == other.multiplier) && (value == other.value)
+        if units == other.units || EQUIVALENTS[units.to_sym] == other.units
+          return true
+        end
+      end
+      return false
     end
 
     private

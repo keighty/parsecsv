@@ -32,6 +32,8 @@ module ParseAmazonData
     end
 
     def ==(other)
+      debug_print
+      debug_print(other)
       if multiplier_match?(other)
         if value_match?(other)
           if units_match?(other)
@@ -50,19 +52,11 @@ module ParseAmazonData
 
     private
 
+    def sanitize_input
+      @input = input.gsub(/of/, '') # "pack of" "case of"
+    end
+
     def parse_input
-      if (match = input.match(PACK_MULTIPLIER))
-        @multiplier = match.captures.first
-      end
-
-      # puts
-      # puts input
-      # puts " matched: #{input.match(FULL_QTY_REGEX)}"
-      # puts " matched: #{input.match(/og/)}"
-      # puts " matched: #{input.match(NO_MULTIPLIER_REGEX)}"
-      # puts " matched: #{input.match(NO_MULTIPLIER_NO_UNITS)}"
-      # puts "-----------------"
-
       if (match = input.match(FULL_QTY_REGEX))
         @multiplier, @value, @units = match.captures
         @multiplier = nil if @multiplier == "1"
@@ -115,6 +109,18 @@ module ParseAmazonData
     end
 
     def get_multiplier(input)
+    end
+
+    def debug_print(other=nil)
+      test_input = other ? other.input : input
+      puts "_________________"
+      puts test_input
+      puts " matched full qty: #{test_input.match(FULL_QTY_REGEX)}"
+      puts " matched case: #{test_input.match(CASE_MULTIPLIER)}"
+      puts " matched pack: #{test_input.match(PRE_PACK_MULTIPLIER) || test_input.match(POST_PACK_MULTIPLIER)}"
+      puts " matched no multiplier: #{test_input.match(NO_MULTIPLIER_REGEX)}"
+      puts " matched no units: #{test_input.match(NO_MULTIPLIER_NO_UNITS)}"
+      puts "-----------------"
     end
   end
 end

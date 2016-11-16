@@ -35,15 +35,8 @@ module ParseAmazonData
     end
 
     def ==(other)
-      if multiplier_match?(other)
-        if value_match?(other)
-          if units_match?(other)
-            return true
-          end
-        end
-      elsif multiplier_value_match?(other)
-        return true
-      end
+      return true if multiplier_match?(other) && value_match?(other) && units_match?(other)
+      return true if multiplier_value_match?(other)
       return false
     end
 
@@ -73,8 +66,12 @@ module ParseAmazonData
     def parse_case_multiplier
       if (match = input.match(CASE_MULTIPLIER))
         @case_qty = match.captures.first
+        @input = @input.gsub(CASE_MULTIPLIER, "")
         @case = "case"
-      elsif (match = input.match(PRE_PACK_MULTIPLIER) || input.match(POST_PACK_MULTIPLIER))
+      elsif (match = input.match(PRE_PACK_MULTIPLIER))
+        @case_qty = match.captures.first
+        @case = "pack"
+      elsif (match = input.match(POST_PACK_MULTIPLIER))
         @case_qty = match.captures.first
         @case = "pack"
       end

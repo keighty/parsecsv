@@ -251,25 +251,35 @@ describe ParseAmazonData do
           expect(qty1 == qty2).to be(false)
         end
 
-        # it "1x == 1" do
-        #   input1 = "5-pack"
-        #   input2 = "5x50oz"
-        # 
-        #   qty1 = ParseAmazonData::QuantityExpression.new(input1)
-        #   qty2 = ParseAmazonData::QuantityExpression.new(input2)
-        # 
-        #   expect(qty1 == qty2).to be(true)
-        # end
+        it "5-pack == 5x" do
+          input1 = "5-pack"
+          input2 = "5x50oz"
 
-        # it "case_12 == 12 pack" do
-        #   input1 = "1.59 oz case_12"
-        #   input2 = "1.59 oz 12 pack"
-        # 
-        #   qty1 = ParseAmazonData::QuantityExpression.new(input1)
-        #   qty2 = ParseAmazonData::QuantityExpression.new(input2)
-        # 
-        #   expect(qty1 == qty2).to be(true)
-        # end
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(true)
+        end
+
+        it "case_12 == 12 pack" do
+          input1 = "1.59 oz case_12"
+          input2 = "1.59 oz 12 pack"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(true)
+        end
+
+        it "case 12 == 12_pack" do
+          input1 = "1.59 oz case_12"
+          input2 = "1.59 oz 12 pack"
+
+          qty1 = ParseAmazonData::QuantityExpression.new(input1)
+          qty2 = ParseAmazonData::QuantityExpression.new(input2)
+
+          expect(qty1 == qty2).to be(true)
+        end
       end
     end
   end

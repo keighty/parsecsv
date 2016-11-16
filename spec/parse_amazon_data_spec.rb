@@ -11,7 +11,7 @@ describe ParseAmazonData do
   end
 
   it "should parse a small csv file" do
-    ParseAmazonData::DataParser.parse('./spec/data/1Line.csv')
+    # ParseAmazonData::DataParser.parse('./spec/data/1Line.csv')
   end
 
   it "should parse a medium csv file" do
@@ -19,7 +19,7 @@ describe ParseAmazonData do
   end
 
   it "should parse a medium-large csv file" do
-    ParseAmazonData::DataParser.parse('./spec/data/50Lines.csv')
+    # ParseAmazonData::DataParser.parse('./spec/data/50Lines.csv')
   end
 
   describe ParseAmazonData::QuantityExpression do
@@ -46,12 +46,13 @@ describe ParseAmazonData do
         multiplier = ParseAmazonData::QuantityExpression.new(input).multiplier
         expect(multiplier).to eql("2")
       end
+    end
 
+    describe "case/packs" do
       it "should recognize pack of syntax" do
         input = "16-Ounce Glass Pack of 6"
-        # input2 = "6x16Oz"
-        multiplier = ParseAmazonData::QuantityExpression.new(input).multiplier
-        expect(multiplier).to eql("6")
+        case_qty = ParseAmazonData::QuantityExpression.new(input).case_qty
+        expect(case_qty).to eql("6")
       end
     end
 
@@ -123,9 +124,7 @@ describe ParseAmazonData do
       it "should throw an error with null input" do
         input = nil
         expect { ParseAmazonData::QuantityExpression.new(input) }.to raise_error(ArgumentError, "No qty data available")
-
       end
-
     end
 
     describe "normalize units" do
@@ -190,6 +189,7 @@ describe ParseAmazonData do
           expect(qty1 == qty2).to be(false)
         end
       end
+
       describe "compare quantities" do
         it "decimal ounce == 1x decimal oz" do
           input1 = "0.5 Ounce"
@@ -251,15 +251,25 @@ describe ParseAmazonData do
           expect(qty1 == qty2).to be(false)
         end
 
-        it "1x == 1" do
-          input1 = "5-pack"
-          input2 = "5x50oz"
+        # it "1x == 1" do
+        #   input1 = "5-pack"
+        #   input2 = "5x50oz"
+        # 
+        #   qty1 = ParseAmazonData::QuantityExpression.new(input1)
+        #   qty2 = ParseAmazonData::QuantityExpression.new(input2)
+        # 
+        #   expect(qty1 == qty2).to be(true)
+        # end
 
-          qty1 = ParseAmazonData::QuantityExpression.new(input1)
-          qty2 = ParseAmazonData::QuantityExpression.new(input2)
-
-          expect(qty1 == qty2).to be(true)
-        end
+        # it "case_12 == 12 pack" do
+        #   input1 = "1.59 oz case_12"
+        #   input2 = "1.59 oz 12 pack"
+        # 
+        #   qty1 = ParseAmazonData::QuantityExpression.new(input1)
+        #   qty2 = ParseAmazonData::QuantityExpression.new(input2)
+        # 
+        #   expect(qty1 == qty2).to be(true)
+        # end
       end
     end
   end

@@ -1,8 +1,9 @@
 module ParseAmazonData
   class QuantityExpression
-    attr_reader :multiplier, :value, :units, :input
-    FULL_QTY_REGEX = /(\d+)[x|X](\d*\.?\d+)(\D+)/
-    PACK_MULTIPLIER = /pack of (\d+)/
+    attr_reader :multiplier, :value, :units, :case, :case_qty, :input
+    FULL_QTY_REGEX = /(\d+)[x|X](\d*\.?\d+)(\D+)/ # 2x1.57 ounces
+    PACK_MULTIPLIER = /pack\D*(\d+)|(\d+)\D*pack/
+    CASE_MULTIPLIER = /case\D*(\d+)/
     NO_MULTIPLIER_REGEX = /(\d*\.?\d+)(\D+)/
     NO_MULTIPLIER_NO_UNITS = /(\d+)/
 
@@ -24,6 +25,7 @@ module ParseAmazonData
       raise ArgumentError, "No qty data available" unless input
       @input = input.downcase
 
+      parse_case_multiplier
       parse_input
       normalize_value
       normalize_units
@@ -70,6 +72,16 @@ module ParseAmazonData
         @value = match.captures.first
       else
         raise RuntimeError, "No qty data available"
+      end
+    end
+
+    def parse_case_multiplier
+      if (match = input.match(CASE_MULTIPLIER))
+        @case_qty = match.captures
+        @case = "case"
+      elsif (match = input.match(PACK_MULTIPLIER))
+        @case_qty = match.captures
+        @case = "pack"
       end
     end
 

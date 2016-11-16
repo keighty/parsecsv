@@ -24,12 +24,7 @@ module ParseAmazonData
       raise ArgumentError, "No qty data available" unless input
       @input = input.downcase
 
-      # if (@input.match(/og/))
-      #   puts @input
-      #   puts @input.match(Q3_WEIRD_REGEX).captures.to_s
-      # end
-
-      parse_input(@input)
+      parse_input
       normalize_value
       normalize_units
     end
@@ -53,8 +48,8 @@ module ParseAmazonData
 
     private
 
-    def parse_input(input)
-      if (match = input.downcase.match(PACK_MULTIPLIER))
+    def parse_input
+      if (match = input.match(PACK_MULTIPLIER))
         @multiplier = match.captures.first
       end
 

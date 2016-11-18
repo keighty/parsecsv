@@ -1,7 +1,7 @@
 module ParseAmazonData
   class QuantityExpression
     attr_reader :multiplier, :value, :units, :_case, :input
-    FULL_QTY = /(\d+)[x|X](\d*\.?\d+)(\D+)/ # 2x1.57 ounces
+    FULL_QTY = /(\d+)[x|X]\s?(\d*\.?\d+)(\D+)/ # 2x1.57 ounces
     PRE_PACK_MULTIPLIER = /pack\D*(\d+)/
     POST_PACK_MULTIPLIER = /(\d+)\s*\D*pack/
     COUNT_MULTIPLIER = /(\d+)\s*\D*count/

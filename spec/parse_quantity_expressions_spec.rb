@@ -5,8 +5,9 @@ questionable_cases = [
   "1x2 count",
   "18 bag"
 ]
-test_cases = {
+PARSE_TEST_CASES = {
   # case => [multiplier, value, units, case]
+  "5x" => ["5", nil, nil, nil],
   "2 oz" => ["1", "2", "oz", nil],
   "2oz" => ["1", "2", "oz", nil],
   "4 fluid ounce" => ["1", "4", "oz", nil],
@@ -24,6 +25,20 @@ test_cases = {
   "50mg capsules, 60 count" => ["60", "50", "mg", "count"]
 }
 
+COMPARE_EQUAL_TEST_CASES = [
+  # ["2-pack", "1x2 count"],
+  ["22 fz", "1x22oz"],
+  ["8 oz", "1x8 oz"],
+  ["4 fluid ounce", "4 oz"],
+  ["100 ea", "1x100 caps"],
+  ["12.7 oz pack of 6", "6x12.7 fz"]
+]
+
+COMPARE_NONEQUAL_TEST_CASES = [
+  ["10 oz", "12x10 oz"],
+  ["5-pack", "12x5oz"],
+]
+
 def validate_qty_object(qty, obj=[])
   expect(qty.multiplier).to eql(obj.shift)
   expect(qty.value).to eql(obj.shift)
@@ -32,42 +47,22 @@ def validate_qty_object(qty, obj=[])
 end
 
 describe "parse a variety of quantities" do
-  test_cases.each do |test_case, validation|
+  PARSE_TEST_CASES.each do |test_case, validation|
     it "should parse #{test_case}" do
       qty = ParseAmazonData::QuantityExpression.new(test_case)
+
       validate_qty_object(qty, validation)
     end
   end
+end
 
-  # it "should parse 50mg capsules, 60 count" do
-  #   input = 
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # input1 = "22 fz"
-  # input2 = "1x22oz"
-  # 
-  # input1 = "2-pack"
-  # input2 = "1x2 count"
-  # 
-  # input1 = "8 oz"
-  # input2 = "1x8 oz"
-  # 
-  # input1 = "6g,dk gldn bln, 5.28 fz"
-  # input2 = "6g dark golden blonde hair color 1xkit"
-  # 
-  # input1 = "10 oz"
-  # input2 = "12x10 oz"
-  # 
-  # input1 = "5-pack"
-  # input2 = "12x5oz"
-  # 
-  # input1 = "4 fluid ounce"
-  # input2 = "4 oz"
-  # 
-  # input1 = "100 ea"
-  # input2 = "1x100 caps"
-  # 
-  # input1 = "12.7 oz pack of 6"
-  # input2 = "6x12.7 fz"
+describe "compare a variety of equal quantities" do
+  COMPARE_EQUAL_TEST_CASES.each do |test_case|
+    it "should parse #{test_case.to_s}" do
+      qty1 = ParseAmazonData::QuantityExpression.new(test_case[0])
+      qty2 = ParseAmazonData::QuantityExpression.new(test_case[1])
+
+      expect(qty1 == qty2).to be(true)
+    end
+  end
 end

@@ -1,182 +1,46 @@
 require 'parse_amazon_data'
 
+questionable_cases = [
+  "6g dark golden blonde hair color 1xkit",
+  "1x2 count",
+  "18 bag"
+]
+test_cases = {
+  # case => [multiplier, value, units, case]
+  "2 oz" => ["1", "2", "oz", nil],
+  "2oz" => ["1", "2", "oz", nil],
+  "4 fluid ounce" => ["1", "4", "oz", nil],
+  "2x5oz" => ["2", "5", "oz", nil],
+  "2x5-oz" => ["2", "5", "oz", nil],
+  "3" => ["1", "3", nil, nil],
+  "5-pack" => ["5", nil, nil, "pack"],
+  "6 pack" => ["6", nil, nil, "pack"],
+  "100 ea" => ["1", "100", "ea", nil],
+  "1x100 caps" => ["1", "100", "ea", nil],
+  "12.7 oz pack of 6" => ["6", "12.7", "oz", "pack"],
+  "6x12.7 fz" => ["6", "12.7", "oz", nil],
+  "4.3-ounce jar" => ["1", "4.3", "oz", nil],
+  "1x4.7oz" => ["1", "4.7", "oz", nil],
+  "50mg capsules, 60 count" => ["60", "50", "mg", "count"]
+}
+
+def validate_qty_object(qty, obj=[])
+  expect(qty.multiplier).to eql(obj.shift)
+  expect(qty.value).to eql(obj.shift)
+  expect(qty.units).to eql(obj.shift)
+  expect(qty._case).to eql(obj.shift)
+end
+
 describe "parse a variety of quantities" do
-  it "no multiplier" do
-    input = "2 oz"
-    qty = ParseAmazonData::QuantityExpression.new(input)
-
-    expect(qty.multiplier).to eql("1")
-    expect(qty.value).to eql("2")
-    expect(qty.units).to eql("oz")
-    expect(qty._case).to eql(nil)
+  test_cases.each do |test_case, validation|
+    it "should parse #{test_case}" do
+      qty = ParseAmazonData::QuantityExpression.new(test_case)
+      validate_qty_object(qty, validation)
+    end
   end
 
-  it "with multiplier" do
-    input = "2x5oz"
-    qty = ParseAmazonData::QuantityExpression.new(input)
-
-    expect(qty.multiplier).to eql("2")
-    expect(qty.value).to eql("5")
-    expect(qty.units).to eql("oz")
-    expect(qty._case).to eql(nil)
-  end
-
-  it "with no multiplier and no units" do
-    input = "2"
-    qty = ParseAmazonData::QuantityExpression.new(input)
-
-    expect(qty.multiplier).to eql("1")
-    expect(qty.value).to eql("2")
-    expect(qty.units).to eql(nil)
-    expect(qty._case).to eql(nil)
-  end
-
-  # it "should parse 2-pack" do
-  #   input = "2-pack"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 1x2 count" do
-  #   input = "1x2 count"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 8 oz" do
-  #   input = "8 oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 1x8 oz" do
-  #   input = "1x8 oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 6g,dk gldn bln, 5.28 fz" do
-  #   input = "6g,dk gldn bln, 5.28 fz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 6g dark golden blonde hair color 1xkit" do
-  #   input = "6g dark golden blonde hair color 1xkit"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 4 oz" do
-  #   input = "4 oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 1x4oz" do
-  #   input = "1x4oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 10 oz" do
-  #   input = "10 oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 12x10 oz" do
-  #   input = "12x10 oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 5-pack" do
-  #   input = "5-pack"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 12x5oz" do
-  #   input = "12x5oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 4 fluid ounce" do
-  #   input = "4 fluid ounce"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 4 oz" do
-  #   input = "4 oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 18 bag" do
-  #   input = "18 bag"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 1x18 bag" do
-  #   input = "1x18 bag"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 100 ea" do
-  #   input = "100 ea"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 1x100 caps" do
-  #   input = "1x100 caps"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 12.7 oz pack of 6" do
-  #   input = "12.7 oz pack of 6"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 6x12.7 fz" do
-  #   input = "6x12.7 fz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 3 oz" do
-  #   input = "3 oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 12x3oz" do
-  #   input = "12x3oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 4.3-ounce jar" do
-  #   input = "4.3-ounce jar"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
-  # it "should parse 1x4.3oz" do
-  #   input = "1x4.3oz"
-  #   qty = ParseAmazonData::QuantityExpression.new(input)
-  #   expect(qty).to eql()
-  # end
-  # 
   # it "should parse 50mg capsules, 60 count" do
-  #   input = "50mg capsules, 60 count"
+  #   input = 
   #   qty = ParseAmazonData::QuantityExpression.new(input)
   #   expect(qty).to eql()
   # end

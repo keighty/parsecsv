@@ -4,6 +4,7 @@ module ParseAmazonData
     FULL_QTY_REGEX = /(\d+)[x|X](\d*\.?\d+)(\D+)/ # 2x1.57 ounces
     PRE_PACK_MULTIPLIER = /pack\D*(\d+)/
     POST_PACK_MULTIPLIER = /(\d+)\s*\D*pack/
+    COUNT_MULTIPLIER = /(\d+)\s*\D*count/
     CASE_MULTIPLIER = /case\D*(\d+)/
     NO_MULTIPLIER_REGEX = /(\d*\.?\d+)(\D+)/
     NO_MULTIPLIER_NO_UNITS = /(\d+)/
@@ -17,6 +18,7 @@ module ParseAmazonData
       caps: "ea",
       vcaps: "caps",
       ouncejar: "oz",
+      mgcapsules: "mg"
     }
 
     def initialize(input)
@@ -52,7 +54,6 @@ module ParseAmazonData
     def parse_input
       if (match = input.match(FULL_QTY_REGEX))
         @multiplier, @value, @units = match.captures
-        @multiplier = nil if @multiplier == "1"
       elsif (match = input.match(NO_MULTIPLIER_REGEX))
         @value, @units = match.captures
       elsif (match = input.match(NO_MULTIPLIER_NO_UNITS))
@@ -74,9 +75,13 @@ module ParseAmazonData
         @input = @input.gsub(PRE_PACK_MULTIPLIER, "")
         @_case = "pack"
       elsif (match = input.match(POST_PACK_MULTIPLIER))
-        @input = @input.gsub(POST_PACK_MULTIPLIER, "")
         @multiplier = match.captures.first
+        @input = @input.gsub(POST_PACK_MULTIPLIER, "")
         @_case = "pack"
+      elsif (match = input.match(COUNT_MULTIPLIER))
+        @multiplier = match.captures.first
+        @input = @input.gsub(COUNT_MULTIPLIER, "")
+        @_case = "count"
       end
     end
 
@@ -88,7 +93,7 @@ module ParseAmazonData
 
     def normalize_units
       if @units
-        normalized = @units.gsub(/\-|\s|\.|_/, "")
+        normalized = @units.gsub(/\-|\s|\.|_|,/, "")
         @units = EQUIVALENTS[normalized.to_sym] || normalized
       end
     end

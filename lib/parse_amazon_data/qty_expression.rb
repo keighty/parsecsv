@@ -18,8 +18,6 @@ module ParseAmazonData
       floz: "oz",
       caps: "ea",
       vcaps: "caps",
-      ouncejar: "oz",
-      ounceglass: "oz",
       mgcapsules: "mg",
     }
 
@@ -54,7 +52,6 @@ module ParseAmazonData
     end
 
     def parse_input
-
       if (match = input.match(FULL_QTY))
         @multiplier, @value, @units = match.captures
       elsif (match = input.match(ONLY_MULTIPLIER))
@@ -99,6 +96,7 @@ module ParseAmazonData
     def normalize_units
       if @units
         normalized = @units.gsub(/\-|\s|\.|_|,/, "")
+        normalized = normalized.gsub(/ounce\D+/, "oz")
         @units = EQUIVALENTS[normalized.to_sym] || normalized
       end
     end

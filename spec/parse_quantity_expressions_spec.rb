@@ -52,6 +52,11 @@ COMPARE_EQUAL_TEST_CASES = [
   ["4 fluid ounce", "4 oz"],
   ["100 ea", "1x100 caps"],
   ["12.7 oz pack of 6", "6x12.7 fz"],
+  ["16 fz", "16 fl oz"],
+  ["8-ounce pack of 6", "6x8 oz"],
+  ["2.25 oz", "1x2.25oz"],
+  ["5 bars", "1x5 bars"],
+  ["3-ounce bag pack of 12", "12x3 oz"]
 ]
 
 # COMPARE_NONEQUAL_TEST_CASES = [

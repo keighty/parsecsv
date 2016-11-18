@@ -15,7 +15,7 @@ describe ParseAmazonData::QuantityExpression do
     it "should remove all hyphens and white space from unit expressions" do
       input = "2-ounce a-Doodles"
       units = ParseAmazonData::QuantityExpression.new(input).units
-      expect(units).to eql('ounceadoodles')
+      expect(units).to eql('oz')
     end
   end
 end

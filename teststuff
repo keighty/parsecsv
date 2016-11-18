@@ -94,3 +94,141 @@
 12x3 oz
 16 fz
 16 fl oz
+
+
+======================
+describe "==" do
+  # describe "compare units" do
+  #   it "count == pack" do
+  #     input1 = "2-pack"
+  #     input2 = "2 count"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # 
+  #   it "fz == oz" do
+  #     input1 = "2fz"
+  #     input2 = "2 Oz"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # 
+  #   it "2 pack == 2-Pack" do
+  #     input1 = "2 pack"
+  #     input2 = "2-Pack"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # 
+  #   it "2-oz == 2 pack" do
+  #     input1 = "2-oz"
+  #     input2 = "2 Pack"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(false)
+  #   end
+  # end
+
+  # describe "compare quantities" do
+  #   it "decimal ounce == 1x decimal oz" do
+  #     input1 = "0.5 Ounce"
+  #     input2 = "1x.5 OZ"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # 
+  #   it "2count != 1-pack" do
+  #     input1 = "2-pack"
+  #     input2 = "1 count"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(false)
+  #   end
+  # 
+  #   it "2fz != 1oz" do
+  #     input1 = "2fz"
+  #     input2 = "1 Oz"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(false)
+  #   end
+  # 
+  #   it "1 pack != 2 Pack" do
+  #     input1 = "1-pack"
+  #     input2 = "2 Pack"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(false)
+  #   end
+  # 
+  #   it "1x == no multiplier" do
+  #     input1 = "22 FZ"
+  #     input2 = "1x22Oz"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # 
+  #   it "1x != 10x" do
+  #     input1 = "2x10 FZ"
+  #     input2 = "1x20 Oz"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(false)
+  #   end
+  # 
+  #   it "5-pack == 5x" do
+  #     input1 = "5-pack"
+  #     input2 = "5x"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # 
+  #   it "case_12 == 12 pack" do
+  #     input1 = "1.59 oz case_12"
+  #     input2 = "1.59 oz 12 pack"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # 
+  #   it "case 12 == 12_pack" do
+  #     input1 = "1.59 oz case_12"
+  #     input2 = "1.59 oz 12 pack"
+  # 
+  #     qty1 = ParseAmazonData::QuantityExpression.new(input1)
+  #     qty2 = ParseAmazonData::QuantityExpression.new(input2)
+  # 
+  #     expect(qty1 == qty2).to be(true)
+  #   end
+  # end
+end

@@ -19,6 +19,7 @@ module ParseAmazonData
       caps: "ea",
       vcaps: "caps",
       ouncejar: "oz",
+      ounceglass: "oz",
       mgcapsules: "mg",
     }
 

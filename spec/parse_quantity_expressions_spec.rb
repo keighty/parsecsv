@@ -19,6 +19,7 @@ PARSE_TEST_CASES = {
   "100 ea" => ["1", "100", "ea", nil],
   "1x100 caps" => ["1", "100", "ea", nil],
   "12.7 oz pack of 6" => ["6", "12.7", "oz", "pack"],
+  "16-Ounce Glass Pack of 6" => ["6", "16", "oz", "pack"],
   "6x12.7 fz" => ["6", "12.7", "oz", nil],
   "4.3-ounce jar" => ["1", "4.3", "oz", nil],
   "1x4.7oz" => ["1", "4.7", "oz", nil],
@@ -26,12 +27,12 @@ PARSE_TEST_CASES = {
 }
 
 COMPARE_EQUAL_TEST_CASES = [
-  # ["2-pack", "1x2 count"],
   ["22 fz", "1x22oz"],
   ["8 oz", "1x8 oz"],
   ["4 fluid ounce", "4 oz"],
   ["100 ea", "1x100 caps"],
-  ["12.7 oz pack of 6", "6x12.7 fz"]
+  ["12.7 oz pack of 6", "6x12.7 fz"],
+  # ["2-pack", "1x2 count"]
 ]
 
 COMPARE_NONEQUAL_TEST_CASES = [

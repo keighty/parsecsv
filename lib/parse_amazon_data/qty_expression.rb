@@ -1,6 +1,6 @@
 module ParseAmazonData
   class QuantityExpression
-    attr_reader :multiplier, :value, :units, :case, :case_qty, :input
+    attr_reader :multiplier, :value, :units, :_case, :input
     FULL_QTY_REGEX = /(\d+)[x|X](\d*\.?\d+)(\D+)/ # 2x1.57 ounces
     PRE_PACK_MULTIPLIER = /pack\D*(\d+)/
     POST_PACK_MULTIPLIER = /(\d+)\s*\D*pack/
@@ -21,8 +21,9 @@ module ParseAmazonData
 
     def initialize(input)
       raise ArgumentError, "No qty data available" unless input
-      @input = input.downcase
 
+      @input = input
+      @multiplier = "1"
       sanitize_input
 
       parse_case_multiplier
@@ -33,18 +34,19 @@ module ParseAmazonData
 
     def ==(other)
       return true if multiplier_match?(other) && value_match?(other) && units_match?(other)
+      return true if multiplier_match?(other) && case_match?(other)
       return true if multiplier_value_match?(other)
       return false
     end
 
     def to_s
-      "multiplier: #{multiplier}, value: #{value}, units: #{units}"
+      "multiplier: #{multiplier}, value: #{value}, units: #{units}, case: #{_case}"
     end
 
     private
 
     def sanitize_input
-      @input = input.gsub(/of/, '') # "pack of" "case of"
+      @input = input.downcase.gsub(/of/, '') # "pack of" "case of"
     end
 
     def parse_input
@@ -55,28 +57,32 @@ module ParseAmazonData
         @value, @units = match.captures
       elsif (match = input.match(NO_MULTIPLIER_NO_UNITS))
         @value = match.captures.first
-      else
+      end
+
+      if !(value || units || _case)
         raise RuntimeError, "No qty data available"
       end
     end
 
     def parse_case_multiplier
       if (match = input.match(CASE_MULTIPLIER))
-        @case_qty = match.captures.first
+        @multiplier = match.captures.first
         @input = @input.gsub(CASE_MULTIPLIER, "")
-        @case = "case"
+        @_case = "case"
       elsif (match = input.match(PRE_PACK_MULTIPLIER))
-        @case_qty = match.captures.first
-        @case = "pack"
+        @multiplier = match.captures.first
+        @input = @input.gsub(PRE_PACK_MULTIPLIER, "")
+        @_case = "pack"
       elsif (match = input.match(POST_PACK_MULTIPLIER))
-        @case_qty = match.captures.first
-        @case = "pack"
+        @input = @input.gsub(POST_PACK_MULTIPLIER, "")
+        @multiplier = match.captures.first
+        @_case = "pack"
       end
     end
 
     def normalize_value
-      if @value.match(/^\./)
-        @value = "0" + @value
+      if value && value.match(/^\./)
+        @value = "0" + value
       end
     end
 
@@ -91,19 +97,21 @@ module ParseAmazonData
       multiplier == other.multiplier
     end
 
+    def case_match?(other)
+      _case == other._case
+    end
+
     def value_match?(other)
       value == other.value
     end
 
     def units_match?(other)
+      return false unless units
       units == other.units || EQUIVALENTS[units.to_sym] == other.units
     end
 
     def multiplier_value_match?(other)
       multiplier == other.value || value == other.multiplier
-    end
-
-    def get_multiplier(input)
     end
 
     def debug_print(other=nil)

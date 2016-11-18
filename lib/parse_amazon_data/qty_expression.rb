@@ -9,8 +9,6 @@ module ParseAmazonData
     NO_MULTIPLIER_NO_UNITS = /(\d+)/
 
     EQUIVALENTS = {
-      pack: "count",
-      packof: "pack",
       count: "pack",
       fz: "oz",
       fluidounce: "oz",
@@ -19,7 +17,6 @@ module ParseAmazonData
       caps: "ea",
       vcaps: "caps",
       ouncejar: "oz",
-      ouncepackof: "oz"
     }
 
     def initialize(input)

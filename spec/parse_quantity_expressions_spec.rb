@@ -44,6 +44,7 @@ PARSE_TEST_CASES = {
   "50mg capsules, 60 count" => ["60", "50", "mg", "count"],
   "1x2.5oz" => ["1", "2.5", "oz", nil],
   "5 bars" => ["1", "5", "bars", nil],
+  "1x2 Count)" => ["2", nil, nil, "count"],
 }
 
 COMPARE_EQUAL_TEST_CASES = [

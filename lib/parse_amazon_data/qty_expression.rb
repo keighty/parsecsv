@@ -11,6 +11,7 @@ module ParseAmazonData
     NO_MULTIPLIER_NO_UNITS = /(\d+)/
 
     EQUIVALENTS = {
+      pack: "count",
       count: "pack",
       fz: "oz",
       fluidounce: "oz",
@@ -55,7 +56,7 @@ module ParseAmazonData
       if (match = input.match(FULL_QTY))
         @multiplier, @value, @units = match.captures
       elsif (match = input.match(ONLY_MULTIPLIER))
-        @multiplier = match.captures.first
+        @multiplier = match.captures.first unless @multiplier != "1"
       elsif (match = input.match(NO_MULTIPLIER))
         @value, @units = match.captures
       elsif (match = input.match(NO_MULTIPLIER_NO_UNITS))
@@ -106,7 +107,10 @@ module ParseAmazonData
     end
 
     def case_match?(other)
-      _case == other._case
+      return true if _case == other._case
+      if (_case)
+        return EQUIVALENTS[_case.to_sym] == other._case
+      end
     end
 
     def value_match?(other)

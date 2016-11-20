@@ -6,7 +6,7 @@ describe ParseAmazonData do
   end
 
   it "should parse a small csv file" do
-    # ParseAmazonData::DataParser.parse('./spec/data/1Line.csv')
+    ParseAmazonData::DataParser.parse('./spec/data/1Line.csv')
   end
 
   it "should parse a medium csv file" do

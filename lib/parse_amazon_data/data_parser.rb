@@ -2,7 +2,11 @@ module ParseAmazonData
   class DataParser
     require 'csv'
 
-    def self.parse(filename)
+    def initialize(filename)
+      parse(filename)
+    end
+
+    def parse(filename)
       count = 0
       CSV.foreach(filename, headers: true) do |csv_obj|
 
@@ -32,7 +36,7 @@ module ParseAmazonData
     end
 
     private
-    def self.getQty(input)
+    def getQty(input)
       qty_regex = /([0-9]+.*)\)?/
       interference_regex = /og\d/
       weird = /og\d\D*(\d*\.?\d+\D*)/

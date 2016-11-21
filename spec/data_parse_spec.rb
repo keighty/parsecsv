@@ -6,14 +6,18 @@ describe ParseAmazonData do
   end
 
   it "should parse a small csv file" do
-    ParseAmazonData::DataParser.parse('./spec/data/1Line.csv')
+    ParseAmazonData::DataParser.new('./spec/data/1Line.csv')
   end
 
   it "should parse a medium csv file" do
-    # ParseAmazonData::DataParser.parse('./spec/data/10Lines.csv')
+    ParseAmazonData::DataParser.new('./spec/data/10Lines.csv')
   end
 
   it "should parse a medium-large csv file" do
-    # ParseAmazonData::DataParser.parse('./spec/data/50Lines.csv')
+    ParseAmazonData::DataParser.new('./spec/data/50Lines.csv')
   end
 end
+
+# TODO: COMPARE_NONEQUAL_TEST_CASES
+# TODO: finish api for parse data
+# TODO: performance optimization

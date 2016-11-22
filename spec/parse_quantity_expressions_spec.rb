@@ -60,10 +60,10 @@ COMPARE_EQUAL_TEST_CASES = [
   ["3-ounce bag pack of 12", "12x3 oz"]
 ]
 
-# COMPARE_NONEQUAL_TEST_CASES = [
-#   ["10 oz", "12x10 oz"],
-#   ["5-pack", "12x5oz"],
-# ]
+COMPARE_NONEQUAL_TEST_CASES = [
+  ["10 oz", "12x10 oz"],
+  ["5-pack", "12x5oz"],
+]
 
 def validate_qty_object(qty, obj=[])
   expect(qty.multiplier).to eql(obj.shift)
@@ -88,11 +88,18 @@ describe "compare a variety of equal quantities" do
       qty1 = ParseAmazonData::QuantityExpression.new(test_case[0])
       qty2 = ParseAmazonData::QuantityExpression.new(test_case[1])
 
-      # puts
-      # puts test_case.to_s
-      # puts qty1
-      # puts qty2
       expect(qty1 == qty2).to be(true)
+    end
+  end
+end
+
+describe "compare a variety of non-equal quantities" do
+  COMPARE_NONEQUAL_TEST_CASES.each do |test_case|
+    it "should parse #{test_case.to_s}" do
+      qty1 = ParseAmazonData::QuantityExpression.new(test_case[0])
+      qty2 = ParseAmazonData::QuantityExpression.new(test_case[1])
+
+      expect(qty1 == qty2).to be(false)
     end
   end
 end

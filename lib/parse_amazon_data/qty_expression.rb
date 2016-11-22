@@ -94,7 +94,7 @@ module ParseAmazonData
     end
 
     def normalize_value
-      if value && value.match(/^\./)
+      if value && value.match(/^\./) # .5 == 0.5
         @value = "0" + value
       end
     end
@@ -128,7 +128,11 @@ module ParseAmazonData
     end
 
     def multiplier_value_match?(other)
-      multiplier == other.value || value == other.multiplier
+      if (multiplier != "1" && other.multiplier != "1")
+        multiplier == other.multiplier
+      else
+        multiplier == other.value || value == other.multiplier
+      end
     end
 
     def debug_print(other=nil)

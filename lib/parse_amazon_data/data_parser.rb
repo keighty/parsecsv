@@ -1,15 +1,16 @@
 module ParseAmazonData
   class DataParser
     require 'csv'
+    attr_reader :matched, :not_matched
 
     def initialize(filename)
+      @matched = []
+      @not_matched = []
       parse(filename)
     end
 
     def parse(filename)
-      count = 0
       CSV.foreach(filename, headers: true) do |csv_obj|
-
         title = csv_obj['Title']
         sku_title = csv_obj['Input SKU']
 
@@ -18,21 +19,21 @@ module ParseAmazonData
           qty2 = getQty(sku_title)
         rescue Exception => e
           csv_obj[:check] = e.message
+          @not_matched.push(csv_obj)
           next
         end
 
         matches = qty1 == qty2
 
-        if !matches
-          count += 1
-          puts title
-          puts sku_title
-          puts qty1
-          puts qty2
-          puts '-----------------'
+        if matches
+          @matched.push(csv_obj)
+        else
+          csv_obj[:check] = "check"
+          @not_matched.push(csv_obj)
         end
+
+        # debug_print(csv_obj, qty1, qty2) if !matches
       end
-      puts "\nissue count: #{count}\n"
     end
 
     private
@@ -53,6 +54,14 @@ module ParseAmazonData
       end
 
       QuantityExpression.new(qty_match)
+    end
+
+    def debug_print(csv_obj, qty1, qty2)
+      puts csv_obj['Title']
+      puts csv_obj['Input SKU']
+      puts qty1
+      puts qty2
+      puts '-----------------'
     end
   end
 end

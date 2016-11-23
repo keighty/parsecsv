@@ -5,9 +5,18 @@
   %table.u-full-width
     %thead
       %tr
-        %th CSV data
+        %th Item #1 description
+        %th Item #2 description
+        %th Item #1 Qty
+        %th Item #2 Qty
+        %th Remove
     %tbody
       - @matched.each do |item|
         %tr
+          %td=item[:titleA]
+          %td=item[:titleB]
           %td=item[:qtyA]
           %td=item[:qtyB]
+          %td
+            %a.button.button-icon
+              %i.fa.fa-remove

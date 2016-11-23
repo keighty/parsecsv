@@ -14,3 +14,4 @@
 mkmf.log
 teststuff
 uploads
+*.DS_Store

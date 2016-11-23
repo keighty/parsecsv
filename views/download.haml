@@ -1,9 +1,12 @@
-%h2 Parsing results
+.container
+  %h3 Parsing results
 
-%h3 Matched
-- @parsed_data.matched.each do |line|
-    %p=line
-
-%h3 Un-matched
-- @parsed_data.not_matched.each do |line|
-    %p=line
+  %h4 Matched
+  %table.u-full-width
+    %thead
+      %tr
+        %th CSV data
+    %tbody
+      - @parsed_data.matched.each do |line|
+        %tr
+          %td=line

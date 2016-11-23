@@ -30,6 +30,16 @@ describe ParseAmazonData do
     parsed = ParseAmazonData::DataParser.new('./spec/data/100Lines.csv')
     expect(parsed.not_matched.length).to be(29)
   end
+
+  it "should parse a full csv file and find 4778 issues" do
+    parsed = ParseAmazonData::DataParser.new('./spec/data/full.csv')
+    expect(parsed.not_matched.length).to be(4778)
+  end
+
+  it "should parse a full csv file and find 6332 good lines" do
+    parsed = ParseAmazonData::DataParser.new('./spec/data/full.csv')
+    expect(parsed.matched.length).to be(6332)
+  end
 end
 
 # TODO: performance optimization

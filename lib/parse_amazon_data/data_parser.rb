@@ -10,7 +10,7 @@ module ParseAmazonData
     end
 
     def parse(filename)
-      CSV.foreach(filename, headers: true) do |csv_obj|
+      CSV.foreach(filename, {headers: true, encoding: 'ISO-8859-1'}) do |csv_obj|
         title = csv_obj['Title']
         sku_title = csv_obj['Input SKU']
 

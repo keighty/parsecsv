@@ -70,15 +70,7 @@ module ParseAmazonData
     end
 
     def parse_case_multiplier
-      if (match = input.match(PRE_CASE_MULTIPLIER))
-        @multiplier = match.captures.first
-        @input = @input.gsub(PRE_CASE_MULTIPLIER, "")
-        @_case = "case"
-      elsif (match = input.match(POST_CASE_MULTIPLIER))
-        @multiplier = match.captures.first
-        @input = @input.gsub(POST_CASE_MULTIPLIER, "")
-        @_case = "case"
-      elsif (match = input.match(PRE_PACK_MULTIPLIER))
+      if (match = input.match(PRE_PACK_MULTIPLIER))
         @multiplier = match.captures.first
         @input = @input.gsub(PRE_PACK_MULTIPLIER, "")
         @_case = "pack"
@@ -86,6 +78,14 @@ module ParseAmazonData
         @multiplier = match.captures.first
         @input = @input.gsub(POST_PACK_MULTIPLIER, "")
         @_case = "pack"
+      elsif (match = input.match(PRE_CASE_MULTIPLIER))
+        @multiplier = match.captures.first
+        @input = @input.gsub(PRE_CASE_MULTIPLIER, "")
+        @_case = "case"
+      elsif (match = input.match(POST_CASE_MULTIPLIER))
+        @multiplier = match.captures.first
+        @input = @input.gsub(POST_CASE_MULTIPLIER, "")
+        @_case = "case"
       elsif (match = input.match(COUNT_MULTIPLIER))
         @multiplier = match.captures.first
         @input = @input.gsub(COUNT_MULTIPLIER, "")

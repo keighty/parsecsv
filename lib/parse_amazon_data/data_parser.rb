@@ -19,7 +19,11 @@ module ParseAmazonData
           qty2 = getQty(sku_title)
         rescue Exception => e
           csv_obj[:error] = e.message
-          @not_matched.push(csv_obj)
+          @not_matched.push({
+            titleA: title,
+            titleB: sku_title,
+            orig: csv_obj
+          })
           next
         end
 

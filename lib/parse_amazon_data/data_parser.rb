@@ -32,7 +32,7 @@ module ParseAmazonData
           @not_matched.push(csv_obj)
         end
 
-        # debug_print(csv_obj, qty1, qty2) if !matches
+        debug_print(csv_obj, qty1, qty2) if !matches
       end
     end
 

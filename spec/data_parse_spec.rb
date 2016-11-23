@@ -17,6 +17,10 @@ describe ParseAmazonData do
     ParseAmazonData::DataParser.new('./spec/data/50Lines.csv')
   end
 
+  it "should parse a large csv file" do
+    ParseAmazonData::DataParser.new('./spec/data/100Lines.csv')
+  end
+
   it "should parse a medium-large csv file and find 11 issues" do
     parsed = ParseAmazonData::DataParser.new('./spec/data/50Lines.csv')
     expect(parsed.not_matched.length).to be(11)

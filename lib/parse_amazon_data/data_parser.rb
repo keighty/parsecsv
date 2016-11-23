@@ -32,7 +32,7 @@ module ParseAmazonData
           @not_matched.push(csv_obj)
         end
 
-        # debug_print(csv_obj, qty1, qty2) if !matches
+        debug_print(csv_obj, qty1, qty2) if !matches
       end
     end
 
@@ -41,8 +41,7 @@ module ParseAmazonData
       qty_regex = /([0-9]+.*)\)?/
       og_interference = /og\d/
       utf8_interference = /#x\d+;/
-
-      weird = /og\d\D*(\d*\.?\d+\D*)/
+      weird = /og\d\D*(\d*x?\.?\d+\D*)/
 
       stripped_input = input.gsub(/\(|\)/, '').downcase
       stripped_input = stripped_input.gsub(utf8_interference, "")

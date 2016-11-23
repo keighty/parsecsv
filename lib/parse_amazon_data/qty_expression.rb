@@ -1,7 +1,8 @@
 module ParseAmazonData
   class QuantityExpression
     attr_reader :multiplier, :value, :units, :_case, :input
-    FULL_QTY = /(\d+)[x|X]\s?(\d*\.?\d+)(\D+)/ # 2x1.57 ounces
+
+    FULL_QTY = /(\d+)\s?[x|X]\s?(\d*\.?\d+)(\D+)/ # 2x1.57 ounces
     PRE_PACK_MULTIPLIER = /pack\D*(\d+)/
     POST_PACK_MULTIPLIER = /(\d+)\s*\D*pack/
     PK_MULTIPLIER = /(\d*)\s*pk\s*(\d*)/
@@ -26,7 +27,6 @@ module ParseAmazonData
 
     def initialize(input)
       raise ArgumentError, "No qty data available" unless input
-
       @input = input
       @multiplier = "1"
       sanitize_input
@@ -105,7 +105,7 @@ module ParseAmazonData
 
     def normalize_units
       if @units
-        normalized = @units.gsub(/\-|\s|\.|_|,|\)/, "")
+        normalized = @units.gsub(/\-|\s|\.|_|,|\)|\(/, "")
         normalized = normalized.gsub(/ounce\D+/, "oz")
         @units = EQUIVALENTS[normalized.to_sym] || normalized
       end

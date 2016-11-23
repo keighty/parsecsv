@@ -47,6 +47,7 @@ PARSE_TEST_CASES = {
   "1x2 Count)" => ["2", nil, nil, "count"],
   ".7 oz - Case of 8" => ["8", "0.7", "oz", "case"],
   "Case of 8 (.7 oz)" => ["8", "0.7", "oz", "case"],
+  "6x10oz)" => ["6", "10", "oz", nil]
 }
 
 COMPARE_EQUAL_TEST_CASES = [
@@ -64,6 +65,7 @@ COMPARE_EQUAL_TEST_CASES = [
   ["48x5/1.5 OZ", "240 per pack -- 1 each"],
   ["12 oz 6 pk", "6x12Oz"],
   ["12 oz 6 pk", "6x12Oz"].reverse,
+  ["12 x.56 oz)", "0.56 oz(case of 12)"],
 ]
 
 COMPARE_NONEQUAL_TEST_CASES = [

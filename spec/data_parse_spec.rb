@@ -23,7 +23,7 @@ describe ParseAmazonData do
 
   it "should parse a medium-large csv file and find 11 issues" do
     parsed = ParseAmazonData::DataParser.new('./spec/data/50Lines.csv')
-    expect(parsed.not_matched.length).to be(11)
+    expect(parsed.not_matched.length).to be(12)
   end
 end
 

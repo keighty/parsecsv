@@ -58,7 +58,8 @@ COMPARE_EQUAL_TEST_CASES = [
   ["2.25 oz", "1x2.25oz"],
   ["5 bars", "1x5 bars"],
   ["3-ounce bag pack of 12", "12x3 oz"],
-  ["48x5/1.5 OZ", "240 per pack"]
+  ["48x5/1.5 OZ", "240 per pack"],
+  ["48x5/1.5 OZ", "240 per pack -- 1 each"],
 
 ]
 

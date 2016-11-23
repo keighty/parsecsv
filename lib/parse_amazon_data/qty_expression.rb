@@ -128,14 +128,10 @@ module ParseAmazonData
     end
 
     def multiplier_value_match?(other)
-      this_multiplied = multiplier.to_i * value.to_i
-      other_multiplied = other.multiplier.to_i * other.value.to_i
+      this_multiplied = multiplier.to_i * (value || 1).to_i
+      other_multiplied = other.multiplier.to_i * (other.value || 1).to_i
 
-      if (multiplier != "1" && other.multiplier != "1")
-        multiplier == other.multiplier || this_multiplied == other.multiplier.to_i || other_multiplied == multiplier.to_i
-      else
-        multiplier == other.value || value == other.multiplier
-      end
+      this_multiplied == other_multiplied
     end
 
     def debug_print(other=nil)

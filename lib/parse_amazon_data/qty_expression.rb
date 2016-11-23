@@ -4,6 +4,7 @@ module ParseAmazonData
     FULL_QTY = /(\d+)[x|X]\s?(\d*\.?\d+)(\D+)/ # 2x1.57 ounces
     PRE_PACK_MULTIPLIER = /pack\D*(\d+)/
     POST_PACK_MULTIPLIER = /(\d+)\s*\D*pack/
+    PK_MULTIPLIER = /(\d*)\s*pk\s*(\d*)/
     COUNT_MULTIPLIER = /(\d+)\s*\D*count/
     PRE_CASE_MULTIPLIER = /case\D*(\d+)/
     POST_CASE_MULTIPLIER = /(\d+)\D+case/
@@ -70,7 +71,10 @@ module ParseAmazonData
     end
 
     def parse_case_multiplier
-      if (match = input.match(PRE_PACK_MULTIPLIER))
+      if (match = input.match(PK_MULTIPLIER))
+        @multiplier = match.captures.first || match.captures.second
+        @_case = "pack"
+      elsif (match = input.match(PRE_PACK_MULTIPLIER))
         @multiplier = match.captures.first
         @input = @input.gsub(PRE_PACK_MULTIPLIER, "")
         @_case = "pack"
@@ -140,6 +144,7 @@ module ParseAmazonData
       puts test_input
       puts " matched case: #{test_input.match(PRE_CASE_MULTIPLIER) || test_input.match(POST_CASE_MULTIPLIER)}"
       puts " matched pack: #{test_input.match(PRE_PACK_MULTIPLIER) || test_input.match(POST_PACK_MULTIPLIER)}"
+      puts " matched pk: #{test_input.match(PK_MULTIPLIER)}"
       puts " matched count: #{test_input.match(COUNT_MULTIPLIER)}"
       puts " matched full qty: #{test_input.match(FULL_QTY)}"
       puts " matched only multiplier: #{test_input.match(ONLY_MULTIPLIER)}"

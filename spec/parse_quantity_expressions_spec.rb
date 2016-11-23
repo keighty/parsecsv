@@ -60,7 +60,7 @@ COMPARE_EQUAL_TEST_CASES = [
   ["3-ounce bag pack of 12", "12x3 oz"],
   ["48x5/1.5 OZ", "240 per pack"],
   ["48x5/1.5 OZ", "240 per pack -- 1 each"],
-
+  ["12 oz 6 pk", "6x12Oz"],
 ]
 
 COMPARE_NONEQUAL_TEST_CASES = [

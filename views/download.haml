@@ -7,6 +7,7 @@
       %tr
         %th CSV data
     %tbody
-      - @parsed_data.matched.each do |line|
+      - @matched.each do |item|
         %tr
-          %td=line
+          %td=item[:qtyA]
+          %td=item[:qtyB]

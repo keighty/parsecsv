@@ -45,7 +45,10 @@ module ParseAmazonData
     end
 
     def to_s
-      "multiplier: #{multiplier}, value: #{value}, units: #{units}, case: #{_case}"
+      value_phrase = value ? "x #{value}" : ""
+      units_phrase = units ? units : ""
+      case_phrase = _case ? _case : ""
+      [multiplier, value_phrase, units_phrase, case_phrase].join(' ')
     end
 
     private

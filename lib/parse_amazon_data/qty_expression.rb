@@ -105,7 +105,7 @@ module ParseAmazonData
 
     def normalize_units
       if @units
-        normalized = @units.gsub(/\-|\s|\.|_|,/, "")
+        normalized = @units.gsub(/\-|\s|\.|_|,|\)/, "")
         normalized = normalized.gsub(/ounce\D+/, "oz")
         @units = EQUIVALENTS[normalized.to_sym] || normalized
       end

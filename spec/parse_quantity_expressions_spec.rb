@@ -45,6 +45,8 @@ PARSE_TEST_CASES = {
   "1x2.5oz" => ["1", "2.5", "oz", nil],
   "5 bars" => ["1", "5", "bars", nil],
   "1x2 Count)" => ["2", nil, nil, "count"],
+  ".7 oz - Case of 8" => ["8", "0.7", "oz", "case"],
+  "Case of 8 (.7 oz)" => ["8", "0.7", "oz", "case"],
 }
 
 COMPARE_EQUAL_TEST_CASES = [

@@ -1,1 +1,9 @@
-%h1 Download
+%h2 Parsing results
+
+%h3 Matched
+- @parsed_data.matched.each do |line|
+    %p=line
+
+%h3 Un-matched
+- @parsed_data.not_matched.each do |line|
+    %p=line

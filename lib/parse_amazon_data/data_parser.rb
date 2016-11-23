@@ -18,18 +18,24 @@ module ParseAmazonData
           qty1 = getQty(title)
           qty2 = getQty(sku_title)
         rescue Exception => e
-          csv_obj[:check] = e.message
+          csv_obj[:error] = e.message
           @not_matched.push(csv_obj)
           next
         end
 
         matches = qty1 == qty2
+        obj = {
+          titleA: title,
+          qtyA: qty1,
+          titleB: sku_title,
+          qtyB: qty2,
+          orig: csv_obj
+        }
 
         if matches
-          @matched.push(csv_obj)
+          @matched.push(obj)
         else
-          csv_obj[:check] = "check"
-          @not_matched.push(csv_obj)
+          @not_matched.push(obj)
         end
 
         # debug_print(csv_obj, qty1, qty2) if !matches

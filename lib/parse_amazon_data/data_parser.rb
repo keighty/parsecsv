@@ -22,7 +22,7 @@ module ParseAmazonData
           @not_matched.push({
             titleA: title,
             titleB: sku_title,
-            orig: csv_obj
+            orig: csv_obj.to_s
           })
           next
         end
@@ -33,7 +33,7 @@ module ParseAmazonData
           qtyA: qty1,
           titleB: sku_title,
           qtyB: qty2,
-          orig: csv_obj
+          orig: csv_obj.to_s
         }
 
         if matches

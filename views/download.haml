@@ -9,7 +9,7 @@
         %th Item #2 description
         %th Item #1 Qty
         %th Item #2 Qty
-    %tbody
+    %tbody#matched_table
       - @matched.each do |item|
         %tr
           %td=item[:titleA]
@@ -28,13 +28,13 @@
         %th Item #2 description
         %th Item #1 Qty
         %th Item #2 Qty
-    %tbody
-      - @unmatched.each do |item|
-        %tr
+    %tbody#unmatched_table
+      - @unmatched.each_with_index do |item, index|
+        %tr(data-id="#{index}")
           %td=item[:titleA]
           %td=item[:titleB]
           %td=item[:qtyA]
           %td=item[:qtyB]
           %td
-            %a.button.button-icon.remove-button(href="javascript:void(0)" onClick="javascript:addToMatched(this)" data-line="#{item[:orig]}")
+            %a.button.button-icon.remove-button(href="javascript:void(0)" onClick="javascript:addToMatched(this, #{index})" data-line="#{item[:orig]}")
               %i.fa.fa-remove

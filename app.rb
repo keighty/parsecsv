@@ -45,6 +45,6 @@ end
 
 def addToCSV(file, content)
   File.open(file, "a") do |file|
-    file.write(content)
+    file.puts(content)
   end
 end

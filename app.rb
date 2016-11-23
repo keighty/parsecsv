@@ -38,6 +38,10 @@ post "/" do
   haml :download
 end
 
+get '/download_matched_file' do
+  send_file MATCHED_FILENAME, type: 'Application/octet-stream', disposition: 'attachment'
+end
+
 post "/addItem" do
   request_content = request.body.read
   addToCSV(MATCHED_FILENAME, request_content)

@@ -2,6 +2,8 @@
   %h3 Parsing results
 
   %h4 Matched
+  %a.button.button-icon(href="/download_matched_file")
+    %i.fa.fa-download
   %table.u-full-width
     %thead
       %tr
@@ -16,9 +18,6 @@
           %td=item[:titleB]
           %td=item[:qtyA]
           %td=item[:qtyB]
-          -# %td
-          -#   %a.button.button-icon
-          -#     %i.fa.fa-remove
 
   %h4 Unmatched
   %table.u-full-width

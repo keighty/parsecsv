@@ -9,7 +9,6 @@
         %th Item #2 description
         %th Item #1 Qty
         %th Item #2 Qty
-        %th Remove
     %tbody
       - @matched.each do |item|
         %tr
@@ -17,6 +16,25 @@
           %td=item[:titleB]
           %td=item[:qtyA]
           %td=item[:qtyB]
+          -# %td
+          -#   %a.button.button-icon
+          -#     %i.fa.fa-remove
+
+  %h4 Unmatched
+  %table.u-full-width
+    %thead
+      %tr
+        %th Item #1 description
+        %th Item #2 description
+        %th Item #1 Qty
+        %th Item #2 Qty
+    %tbody
+      - @unmatched.each do |item|
+        %tr
+          %td=item[:titleA]
+          %td=item[:titleB]
+          %td=item[:qtyA]
+          %td=item[:qtyB]
           %td
-            %a.button.button-icon
+            %a.button.button-icon.remove-button(href="javascript:void(0)" onClick="javascript:addToMatched(this)" data-line="#{item[:orig]}")
               %i.fa.fa-remove

@@ -9,36 +9,42 @@ get '/' do
   haml :index
 end
 
-# titleA
-# qtyA
-# titleB
-# qtyB
-# orig
+# titleA qtyA titleB qtyB orig
+INPUT_FILENAME = 'uploads/temp.csv'
+MATCHED_FILENAME = 'downloads/matched.csv'
+UNMATCHED_FILENAME = 'downloads/not_matched.csv'
 
 post "/" do
-  input_filename = 'uploads/temp.csv'
-  matched_output_filename = 'downloads/matched.csv'
-  not_matched_output_filename = 'downloads/not_matched.csv'
-
-  File.open(input_filename, "w") do |f|
+  File.open(INPUT_FILENAME, "w") do |f|
     f.write(params['myfile'][:tempfile].read)
   end
 
-  parsed_data = ParseAmazonData::DataParser.new(input_filename)
+  parsed_data = ParseAmazonData::DataParser.new(INPUT_FILENAME)
   @matched = parsed_data.matched
   @unmatched = parsed_data.not_matched
 
-  File.open(matched_output_filename, "w") do |file|
+  File.open(MATCHED_FILENAME, "w") do |file|
     @matched.each do |item|
       file.write(item[:orig])
     end
   end
 
-  File.open(not_matched_output_filename, "w") do |file|
+  File.open(UNMATCHED_FILENAME, "w") do |file|
     @unmatched.each do |item|
       file.write(item[:orig])
     end
   end
 
   haml :download
+end
+
+post "/addItem" do
+  request_content = request.body.read
+  addToCSV(MATCHED_FILENAME, request_content)
+end
+
+def addToCSV(file, content)
+  File.open(file, "a") do |file|
+    file.write(content)
+  end
 end

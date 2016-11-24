@@ -1,37 +1,39 @@
 .container
   %h3 Parsing results
 
-  %h4 Matched
-  %table.u-full-width
-    %thead
-      %tr
-        %th Item #1 description
-        %th Item #2 description
-        %th Item #1 Qty
-        %th Item #2 Qty
-    %tbody#matched_table
-      - @matched.each do |item|
-        %tr
-          %td=item[:titleA]
-          %td=item[:titleB]
-          %td=item[:qtyA]
-          %td=item[:qtyB]
-
   %h4 Unmatched
-  %table.u-full-width
-    %thead
-      %tr
-        %th Item #1 description
-        %th Item #2 description
-        %th Item #1 Qty
-        %th Item #2 Qty
-    %tbody#unmatched_table
-      - @unmatched.each_with_index do |item, index|
-        %tr(data-id="#{index}")
-          %td=item[:titleA]
-          %td=item[:titleB]
-          %td=item[:qtyA]
-          %td=item[:qtyB]
-          %td
-            %i.fa.fa-remove.fa-lg(onClick="javascript:verified(this, #{index})" data-line="#{item[:orig]}")
-            %i.fa.fa-check.fa-lg(onClick="javascript:addToMatched(this, #{index})" data-line="#{item[:orig]}")>
+  .data-table
+    %table.u-full-width
+      %thead
+        %tr
+          %th Item #1 description
+          %th Item #2 description
+          %th Item #1 Qty
+          %th Item #2 Qty
+      %tbody#unmatched_table
+        - @unmatched.each_with_index do |item, index|
+          %tr(data-id="#{index}")
+            %td=item[:titleA]
+            %td=item[:titleB]
+            %td=item[:qtyA]
+            %td=item[:qtyB]
+            %td
+              %i.fa.fa-remove.fa-lg(onClick="javascript:verified(this, #{index})" data-line="#{item[:orig]}")
+              %i.fa.fa-check.fa-lg(onClick="javascript:addToMatched(this, #{index})" data-line="#{item[:orig]}")>
+
+  %h4 Matched
+  .data-table
+    %table.u-full-width
+      %thead
+        %tr
+          %th Item #1 description
+          %th Item #2 description
+          %th Item #1 Qty
+          %th Item #2 Qty
+      %tbody#matched_table
+        - @matched.each do |item|
+          %tr
+            %td=item[:titleA]
+            %td=item[:titleB]
+            %td=item[:qtyA]
+            %td=item[:qtyB]

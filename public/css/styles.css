@@ -49,3 +49,7 @@ i.fa-check { color: green; }
 th {
   min-width: 75px;
 }
+
+td {
+  max-width: 100px;
+}

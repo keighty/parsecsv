@@ -40,3 +40,12 @@ body { margin-top: 60px; }
 
 i.fa-remove { color: red; }
 i.fa-check { color: green; }
+
+.data-table {
+  max-height: 700px;
+  overflow-y: scroll;
+}
+
+th {
+  min-width: 75px;
+}

@@ -1,7 +1,5 @@
 .container
-  %h3 Parsing results
-
-  %h4 Unmatched
+  %h4 Unmatched Results
   .data-table
     %table.u-full-width
       %thead
@@ -21,7 +19,7 @@
               %i.fa.fa-remove.fa-lg(onClick="javascript:verified(this, #{index})" data-line="#{item[:orig]}")
               %i.fa.fa-check.fa-lg(onClick="javascript:addToMatched(this, #{index})" data-line="#{item[:orig]}")>
 
-  %h4 Matched
+  %h4 Matched Results
   .data-table
     %table.u-full-width
       %thead

@@ -1,6 +1,6 @@
 # ParseAmazonData
 
-An application for parsing CSV data in the format: `Title,Input SKU,Asin,Upc`, where Title and Input SKU are strings that contain some expression of quantity.
+An application for parsing CSV data in the format: `Title,Input SKU,Asin,Upc...`, where Title and Input SKU are strings that contain some expression of quantity.
 
 Examples:
 ```
@@ -17,3 +17,7 @@ parsed_data = ParseAmazonData::DataParser.new('./path/to/data.csv')
 parsed_data.matched
 parsed_data.not_matched
 ```
+
+## User Interface
+
+This library is available for demo at https://parse-amazon-data.herokuapp.com/ 

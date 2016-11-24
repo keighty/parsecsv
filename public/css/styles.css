@@ -38,8 +38,22 @@ body { margin-top: 60px; }
 .hover-links a:hover { text-decoration: underline; }
 .text-lg { font-size: 32px; }
 
-i.fa-remove { color: red; }
-i.fa-check { color: green; }
+i.fa-remove {
+  color: red;
+  padding-right: 10px;
+}
+
+i.fa-remove:hover {
+  cursor: pointer;
+}
+
+i.fa-check {
+  color: green;
+}
+
+i.fa-check:hover {
+  cursor: pointer;
+}
 
 .data-table {
   max-height: 700px;

@@ -1,6 +1,12 @@
 .container
   .row
-    %h3 Upload your file
+    .six.columns
+      %h3 Upload your file
+      %p Your file should be in csv format, and should contain the column headers 'Title' and 'Input SKU', which represent the two descriptions to be compared.
+      %ul
+        %li Select your file and click Upload.
+        %li Validate items in the Unmatched table.
+        %li Click Download (above) to save a copy of the matched items.
   .row
     %form(method="post" enctype='multipart/form-data')
       %input(type='file' name='myfile')
